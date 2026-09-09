@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="bn" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>আমার বাজার - আপনার আস্থার অনলাইন শপ</title>
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Dynamic Theme Color Script Tag - will be populated by JS -->
+  <style id="dynamic-theme-style"></style>
+</head>
+<body>
+
+  <!-- ========================================== -->
+  <!-- CUSTOMER STOREFRONT LAYOUT SHELL          -->
+  <!-- ========================================== -->
+  <div id="storefront-shell">
+    
+    <!-- Top Header -->
+    <header>
+      <div class="container header-container">
+        <!-- Logo & Title -->
+        <div class="logo-section" onclick="navigate('/')">
+          <div class="logo-icon" id="site-logo-icon">আ</div>
+          <div class="logo-text">
+            <h1 id="site-title-nav">আমার বাজার</h1>
+            <p id="site-tagline-nav">আপনার আস্থার অনলাইন শপ</p>
+          </div>
+        </div>
+
+        <!-- Live Search Bar -->
+        <div class="search-container">
+          <input type="text" class="search-bar" id="live-search-input" placeholder="পণ্য খুঁজুন (বাংলায় লিখুন)..." autocomplete="off">
+          <div class="search-icon-btn">
+            <i data-lucide="search"></i>
+          </div>
+          <!-- Live Autocomplete dropdown -->
+          <div class="search-suggestions" id="search-suggestions-dropdown"></div>
+        </div>
+
+        <!-- Actions (Dark Mode, Cart, Admin toggle) -->
+        <div class="nav-actions">
+          <button class="nav-btn" id="theme-toggle-btn" title="ডার্ক/লাইট মোড পরিবর্তন">
+            <i data-lucide="sun"></i>
+          </button>
+          
+          <button class="nav-btn" onclick="openCartDrawer()" title="কার্ট দেখুন">
+            <i data-lucide="shopping-cart"></i>
+            <span class="badge" id="cart-counter-badge">০</span>
+          </button>
+          
+          <button class="admin-mode-toggle" onclick="navigate('/admin')">
+            <i data-lucide="shield-check"></i>
+            <span>অ্যাডমিন কন্ট্রোল</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Navigation Bar -->
+    <nav class="menu-bar">
+      <div class="container menu-container">
+        <ul class="nav-links">
+          <li><a href="#/" class="nav-link-item active" id="nav-link-home" onclick="navigate('/')">হোম (Home)</a></li>
+          <li><a href="#/shop" class="nav-link-item" id="nav-link-shop" onclick="navigate('/shop')">শপ / পণ্যসমূহ (Shop)</a></li>
+          <li><a href="#/track" class="nav-link-item" id="nav-link-track" onclick="navigate('/track')">অর্ডার ট্র্যাক করুন (Track Order)</a></li>
+          <li><a href="#/contact" class="nav-link-item" id="nav-link-contact" onclick="navigate('/contact')">যোগাযোগ (Contact)</a></li>
+        </ul>
+        <div class="contact-number-header" style="font-size: 14px; font-weight: 700; color: var(--primary-color);">
+          <i data-lucide="phone-call" style="width: 14px; height: 14px; display: inline-block; vertical-align: middle; margin-right: 4px;"></i>
+          হটলাইন: <span id="header-hotline-phone">01700000000</span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content Container -->
+    <main class="container" id="main-content-area" style="min-height: 60vh; padding: 20px 0;">
+      <!-- Dynamic Views rendered here -->
+    </main>
+
+    <!-- Footer -->
+    <footer style="background-color: var(--bg-secondary); border-top: 1px solid var(--border-color); padding: 40px 0; margin-top: 50px;">
+      <div class="container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px;">
+        <div>
+          <h4 style="font-size: 16px; font-weight: 700; margin-bottom: 16px; color: var(--primary-color);" id="footer-site-name">আমার বাজার</h4>
+          <p style="font-size: 13.5px; color: var(--text-secondary);" id="footer-site-tagline">আপনার আস্থার অনলাইন শপ</p>
+        </div>
+        <div>
+          <h4 style="font-size: 14.5px; font-weight: 700; margin-bottom: 16px;">সহযোগিতা</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 13.5px;">
+            <li><a href="#/track" onclick="navigate('/track')">অর্ডার ট্র্যাকিং</a></li>
+            <li><a href="#/contact" onclick="navigate('/contact')">আমাদের ঠিকানা</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="font-size: 14.5px; font-weight: 700; margin-bottom: 16px;">পেমেন্ট মেথড</h4>
+          <p style="font-size: 13.5px; color: var(--text-secondary); margin-bottom: 10px;">ক্যাশ অন ডেলিভারি, বিকাশ, রকেট, নগদ</p>
+        </div>
+      </div>
+      <div class="container" style="margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--border-color); text-align: center; font-size: 13px; color: var(--text-tertiary);">
+        &copy; <span id="current-year">2026</span> <span id="copyright-site-name">আমার বাজার</span>. সর্বস্বত্ব সংরক্ষিত।
+      </div>
+    </footer>
+
+    <!-- Slide-over Cart Drawer -->
+    <div class="cart-drawer-overlay" id="cart-overlay-shadow" onclick="closeCartDrawer()"></div>
+    <div class="cart-drawer" id="cart-drawer-panel">
+      <div class="cart-drawer-header">
+        <h3><i data-lucide="shopping-basket"></i> শপিং কার্ট</h3>
+        <button class="btn-close-drawer" onclick="closeCartDrawer()">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      
+      <!-- Cart Items Container -->
+      <div class="cart-items-container" id="cart-items-list-wrap">
+        <!-- Rendered Dynamically -->
+      </div>
+
+      <!-- Cart Footer & Checkout Button -->
+      <div class="cart-drawer-footer">
+        <div class="cart-summary-row">
+          <span>মোট পণ্য:</span>
+          <span id="cart-footer-qty">০ টি</span>
+        </div>
+        <div class="cart-summary-row">
+          <span>ডিসকাউন্ট:</span>
+          <span id="cart-footer-discount">৳ ০</span>
+        </div>
+        <div class="cart-total-row">
+          <span>সর্বমোট বিল:</span>
+          <span id="cart-footer-total">৳ ০</span>
+        </div>
+        <div class="coupon-container">
+          <input type="text" class="coupon-input" id="coupon-code-input" placeholder="কুপন কোড (যেমন: EID20)">
+          <button class="coupon-btn" onclick="applyCoupon()">প্রয়োগ</button>
+        </div>
+        <button class="btn-checkout" onclick="proceedToCheckoutPage()">অর্ডার করতে এগিয়ে যান</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- BACKEND / ADMIN DASHBOARD SHELL           -->
+  <!-- ========================================== -->
+  <div id="admin-shell" class="admin-shell" style="display: none;">
+    <!-- Admin Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-header">
+        <div class="logo-icon" style="width: 38px; height: 38px; font-size: 18px;">ক</div>
+        <div>
+          <h2 style="font-size: 16px; font-weight: 700; color: white;">কন্ট্রোল প্যানেল</h2>
+          <p style="font-size: 10px; color: #64748b; font-weight: 600;" id="admin-sidebar-site-name">আমার বাজার</p>
+        </div>
+      </div>
+      
+      <ul class="admin-menu-list">
+        <li class="admin-menu-item"><a href="#/admin" class="active" id="admin-nav-overview" onclick="navigate('/admin')"><i data-lucide="layout-dashboard"></i> ড্যাশবোর্ড ওভারভিউ</a></li>
+        <li class="admin-menu-item"><a href="#/admin/products" id="admin-nav-products" onclick="navigate('/admin/products')"><i data-lucide="package"></i> পণ্য ম্যানেজমেন্ট</a></li>
+        <li class="admin-menu-item"><a href="#/admin/categories" id="admin-nav-categories" onclick="navigate('/admin/categories')"><i data-lucide="folder-open"></i> ক্যাটাগরি ম্যানেজার</a></li>
+        <li class="admin-menu-item"><a href="#/admin/orders" id="admin-nav-orders" onclick="navigate('/admin/orders')"><i data-lucide="shopping-bag"></i> অর্ডার ম্যানেজমেন্ট</a></li>
+        <li class="admin-menu-item"><a href="#/admin/shipping" id="admin-nav-shipping" onclick="navigate('/admin/shipping')"><i data-lucide="truck"></i> শিপিং কনফিগারেশন</a></li>
+        <li class="admin-menu-item"><a href="#/admin/users" id="admin-nav-users" onclick="navigate('/admin/users')"><i data-lucide="users"></i> স্টাফ ও কাস্টমার</a></li>
+        <li class="admin-menu-item"><a href="#/admin/settings" id="admin-nav-settings" onclick="navigate('/admin/settings')"><i data-lucide="settings"></i> সাইট ও থিম সেটিংস</a></li>
+      </ul>
+      
+      <div class="admin-sidebar-footer">
+        <button class="btn btn-secondary" onclick="navigate('/')" style="width: 100%; font-size: 13px; padding: 10px; border-color: #334155; color: #cbd5e1;">
+          <i data-lucide="log-out" style="width: 14px; height: 14px;"></i> কাস্টমার ভিউ
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Section Wrapper -->
+    <div class="admin-main-wrap">
+      <!-- Admin Top Navigation -->
+      <div class="admin-top-navbar">
+        <div class="admin-top-nav-title" id="admin-page-title-heading">ড্যাশবোর্ড ওভারভিউ</div>
+        
+        <div class="admin-user-profile">
+          <div class="admin-user-details" style="text-align: right; line-height: 1.3;">
+            <div style="font-size: 14px; font-weight: 700;" id="admin-user-fullname">কামরুল হাসান</div>
+            <div style="font-size: 11px; color: var(--text-secondary);" id="admin-user-role">অ্যাডমিনিস্ট্রেটর</div>
+          </div>
+          <div class="admin-avatar" id="admin-user-avatar-initial">ক</div>
+        </div>
+      </div>
+
+      <!-- Admin Dynamic View Content Area -->
+      <div class="admin-content-view" id="admin-content-area">
+        <!-- Rendered Dynamically -->
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- MODAL CONTAINERS                           -->
+  <!-- ========================================== -->
+  <div class="modal-overlay" id="global-modal-overlay">
+    <div class="modal-content" id="global-modal-content">
+      <!-- Generated dynamically in JS -->
+    </div>
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- INVOICE SECTION (INVISIBLE IN UI, PRINTABLE)-->
+  <!-- ========================================== -->
+  <div id="invoice-print-area" style="display: none;">
+    <!-- Generated dynamically in JS -->
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- LIBRARIES & JAVASCRIPT LOAD                -->
+  <!-- ========================================== -->
+  <!-- Lucide Icon Library -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Chart.js Library -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- DB Layer File -->
+  <script src="db.js"></script>
+  <!-- Application JS Code File -->
+  <script src="app.js"></script>
+</body>
+</html>
